@@ -1,0 +1,13 @@
+universe = grid
+grid_resource = condor 172.30.27.42:28369 172.30.27.41:9618
+executable = prueba.sh
+
+output = grid_salida.out
+error = grid_salida.err
+log = grid_salida.log
+
+transfer_executable = YES
+should_transfer_files = YES
+when_to_transfer_output = ON_EXIT
+
+queue
