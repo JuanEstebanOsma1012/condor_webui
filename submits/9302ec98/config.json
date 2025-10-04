@@ -1,0 +1,9 @@
+{
+  "jobType": "parallel",
+  "additionalArgs": "out1M",
+  "cluster": "172.30.28.31:9618 172.30.28.30:9618",
+  "parallelOptions": {
+    "machinesCount": "3",
+    "coresPerMachine": "1"
+  }
+}

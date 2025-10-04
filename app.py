@@ -5,6 +5,7 @@ import re
 import json
 import uuid
 import time
+import threading
 
 JOB_STATUS = {
     '1': 'Idle',
@@ -17,13 +18,8 @@ JOB_STATUS = {
 app = Flask(__name__)
 DEFAULT_PROJECT_FOLDER = '/home/juan/Documents/trabajo_de_grado/Raspberries/services/app_submit/app/'
 #DEFAULT_PROJECT_FOLDER = '/opt/app/'
-UPLOAD_FOLDER = os.path.join(DEFAULT_PROJECT_FOLDER, 'uploads/')
 SUBMIT_FOLDER = os.path.join(DEFAULT_PROJECT_FOLDER, 'submits/')
-RESULTS_FOLDER = os.path.join(DEFAULT_PROJECT_FOLDER, 'results/')
-
-# Crear directorios si no existen
-os.makedirs(SUBMIT_FOLDER, exist_ok=True)
-os.makedirs(RESULTS_FOLDER, exist_ok=True)
+SCRIPTS_FOLDER = os.path.join(DEFAULT_PROJECT_FOLDER, 'scripts/')
 
 @app.route("/")
 def hello():
@@ -42,6 +38,7 @@ def submit_job():
         # Obtener archivos y configuración
         binary_file = request.files.get('binary-file')
         submit_file = request.files.get('submit-file')
+        input_file = request.files.get('input-file')
         config_str = request.form.get('config', '{}')
         config = json.loads(config_str)
         
@@ -57,15 +54,23 @@ def submit_job():
             binary_file.save(binary_path)
             # Hacer ejecutable
             os.chmod(binary_path, 0o755)
+            
+        input_filename = None
+        if input_file and input_file.filename:
+            input_filename = input_file.filename
+            input_path = os.path.join(job_dir, input_filename)
+            input_file.save(input_path)
+            # Hacer ejecutable
+            os.chmod(input_path, 0o755)
+                
+        submit_path = os.path.join(job_dir, 'job.sub')
         
         # Si hay submit file personalizado, usarlo
         if submit_file and submit_file.filename:
-            submit_path = os.path.join(job_dir, 'job.sub')
             submit_file.save(submit_path)
         else:
             # Crear archivo submit basado en la configuración
-            submit_path = os.path.join(job_dir, 'job.sub')
-            create_submit_file(submit_path, config, binary_filename, job_id)
+            create_submit_file(submit_path, config, binary_filename, job_id, input_filename)
         
         # Guardar configuración para referencia
         config_path = os.path.join(job_dir, 'config.json')
@@ -75,82 +80,145 @@ def submit_job():
         # Cambiar al directorio del trabajo para ejecutar condor_submit
         os.chdir(job_dir)
         
-        # Ejecutar condor_submit
-        result = subprocess.run(
-            ['condor_submit', 'job.sub'],
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
-            universal_newlines=True,
-            cwd=job_dir
-        )
-        
-        if result.returncode != 0:
-            return jsonify({"error": "Error en condor_submit: {}".format(result.stderr)}), 500
-        
-        # Extraer número de cluster de la salida
-        lines = result.stdout.split('\n')
-        cluster_id = None
-        
-        for line in lines:
-            match = re.search(r"(\d+)\s+job\(s\)\s+submitted to cluster\s+(\d+)", line)
-            if match:
-                cluster_id = match.group(2)
-                break
-        
-        # Guardar información del trabajo
-        job_info = {
-            'job_id': job_id,
-            'cluster_id': cluster_id,
-            'config': config,
-            'binary_filename': binary_filename,
-            'submit_output': result.stdout,
-            'created_at': time.time()
-        }
-        
-        info_path = os.path.join(job_dir, 'job_info.json')
-        with open(info_path, 'w') as f:
-            json.dump(job_info, f, indent=2)
-        
-        os.chdir(cwd)  # Volver al directorio original
-        
-        return jsonify({
-            "success": True,
-            "job_id": job_id,
-            "cluster_id": cluster_id,
-            "message": "Trabajo enviado exitosamente"
-        })
+        if config.get('jobType') == 'vanilla':
+            
+            # Ejecutar condor_submit
+            result = subprocess.run(
+                ['condor_submit', 'job.sub'],
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                universal_newlines=True,
+                cwd=job_dir
+            )
+            
+            if result.returncode != 0:
+                return jsonify({"error": "Error en condor_submit: {}".format(result.stderr)}), 500
+            
+            # Extraer número de cluster de la salida
+            lines = result.stdout.split('\n')
+            cluster_id = None
+            
+            for line in lines:
+                match = re.search(r"(\d+)\s+job\(s\)\s+submitted to cluster\s+(\d+)", line)
+                if match:
+                    cluster_id = match.group(2)
+                    break
+            
+            # Guardar información del trabajo
+            job_info = {
+                'job_id': job_id,
+                'cluster_id': cluster_id,
+                'config': config,
+                'binary_filename': binary_filename,
+                'submit_output': result.stdout,
+                'created_at': time.time()
+            }
+            
+            info_path = os.path.join(job_dir, 'job_info.json')
+            with open(info_path, 'w') as f:
+                json.dump(job_info, f, indent=2)
+            
+            os.chdir(cwd)  # Volver al directorio original
+            
+            return jsonify({
+                "success": True,
+                "job_id": job_id,
+                "cluster_id": cluster_id,
+                "message": "Trabajo enviado exitosamente"
+            })
+            
+        elif config.get('jobType') == 'parallel':
+            
+            submit_ip = config.get('cluster').split(':')[0]
+            
+            # Ejecutar condor_submit
+            result = subprocess.run(
+                ['./send-submit.sh', str(job_dir), str(submit_ip), str(job_id)],
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                universal_newlines=True,
+                cwd=SCRIPTS_FOLDER
+            )
+            
+            if result.returncode != 0:
+                return jsonify({"error": "Error en condor_submit: {}".format(result.stderr)}), 500
+            
+            # Extraer número de cluster de la salida
+            lines = result.stdout.split('\n')
+            cluster_id = None
+            
+            for line in lines:
+                match = re.search(r"(\d+)\s+job\(s\)\s+submitted to cluster\s+(\d+)", line)
+                if match:
+                    cluster_id = match.group(2)
+                    break
+            
+            # Guardar información del trabajo
+            job_info = {
+                'job_id': job_id,
+                'cluster_id': cluster_id,
+                'config': config,
+                'binary_filename': binary_filename,
+                'submit_output': result.stdout,
+                'created_at': time.time()
+            }
+            
+            info_path = os.path.join(job_dir, 'job_info.json')
+            with open(info_path, 'w') as f:
+                json.dump(job_info, f, indent=2)
+                
+            def traer_salidas():
+                
+                subprocess.run(
+                    ['./fetch-outputs.sh', str(job_dir), str(submit_ip), str(job_id)],
+                    stdout=subprocess.PIPE,
+                    stderr=subprocess.PIPE,
+                    universal_newlines=True,
+                    cwd=SCRIPTS_FOLDER
+                )
+                
+            thread = threading.Thread(target=traer_salidas)
+            thread.start()
+            
+            os.chdir(cwd)  # Volver al directorio original
+            
+            return jsonify({
+                "success": True,
+                "job_id": job_id,
+                "cluster_id": cluster_id,
+                "message": "Trabajo enviado exitosamente"
+            })
         
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
-def create_submit_file(submit_path, config, binary_filename, job_id):
+def create_submit_file(submit_path, config, binary_filename, job_id, input_filename):
     """Crear archivo submit basado en la configuración"""
     job_type = config.get('jobType', 'vanilla')
-    grid_resource = config.get('cluster', '')
-    additional_args = config.get('additionalArgs', '')
     
     submit_content = """# HTCondor Submit File - Job ID: {}
 # Generated automatically
-universe = grid
+""".format(job_id)
+    
+    if job_type == 'vanilla':
+        
+        grid_resource = config.get('cluster', '')
+        additional_args = config.get('additionalArgs', '')
+        
+        submit_content += """universe = grid
 remote_universe = {}
 grid_resource = condor {}
-""".format(job_id, job_type, grid_resource)
-    
-    if binary_filename:
-        submit_content += "executable = {}\n".format(binary_filename)
-    
-    # Archivos de salida estándar (los ponemos antes para mantener el orden del ejemplo)
-    submit_content += """output = job_$(Process).out
+executable = {}
+output = job_$(Process).out
 error = job_$(Process).err
 log = job.log
 # Configuraciones adicionales
 transfer_executable = YES
 should_transfer_files = YES
 when_to_transfer_output = ON_EXIT
-"""
-    
-    # Procesar según el tipo de trabajo
-    if job_type == 'vanilla':
+requirements = (Arch == "armv7l")
+""".format(job_id, job_type, grid_resource, binary_filename)
+
         vanilla_mode = config.get('vanillaMode', '')
         
         submit_content += """requirements = (Arch == "armv7l")\n"""
@@ -175,9 +243,9 @@ when_to_transfer_output = ON_EXIT
                     primary_var = variables_in_args[0]
                     primary_config = all_variables[primary_var]
                     
-                    start = int(primary_config.get('start', 1))
+                    #start = int(primary_config.get('start', 1))
                     end = int(primary_config.get('end', 10))
-                    increment = int(primary_config.get('increment', 1))
+                    #increment = int(primary_config.get('increment', 1))
                     
                     # Generar lista explícita de trabajos
                     submit_content += "# Lista explícita de trabajos\n"
@@ -222,19 +290,36 @@ when_to_transfer_output = ON_EXIT
             if additional_args:
                 submit_content += "arguments = {}\n".format(additional_args)
             submit_content += "queue 1\n"
-            
+
     elif job_type == 'parallel':
-        # Trabajo paralelo - configurar recursos
+        
+        additional_args = config.get('additionalArgs', '')
+        
+        submit_content += """universe = parallel
+executable = /usr/share/doc/condor/examples/openmpiscript
+arguments = {} {} """.format(binary_filename, input_filename)
+
+        if additional_args:
+            submit_content += "{}\n".format(additional_args)
+        
         parallel_opts = config.get('parallelOptions', {})
+        
         machines_count = int(parallel_opts.get('machinesCount', 1))
         cores_per_machine = int(parallel_opts.get('coresPerMachine', 1))
-        
-        submit_content += "machine_count = {}\n".format(machines_count)
-        submit_content += "request_cpus = {}\n".format(cores_per_machine)
-        
-        if additional_args:
-            submit_content += "arguments = {}\n".format(additional_args)
-        submit_content += "queue 1\n"
+
+        submit_content += """machine_count = {}
+request_cpus = {}
+should_transfer_files = yes
+when_to_transfer_output = ON_EXIT_OR_EVICT
+transfer_input_files = {},{}
+log = job.log
+output = job_$(NODE).out
+error = job_$(NODE).err
++ParallelShutdownPolicy = "WAIT_FOR_NODE0"
+environment = "PATH=/usr/lib64/openmpi/bin:$PATH;LD_LIBRARY_PATH=/usr/lib64/openmpi/lib:$LD_LIBRARY_PATH"
+queue
+""".format(machines_count, cores_per_machine, binary_filename, input_filename)
+
     else:
         # Tipo de trabajo no especificado
         if additional_args:
@@ -264,16 +349,28 @@ def show_results(job_id):
         
         # Obtener archivos de salida
         output_files = []
-        for filename in os.listdir(job_dir):
-            if filename.startswith('job_') and filename.endswith('.out'):
-                output_files.append(filename)
         
-        output_files.sort()  # Ordenar para mostrar consistentemente
+        if job_info.get('config').get('jobType') == 'vanilla':
+            
+            for filename in os.listdir(job_dir):
+                if filename.startswith('job_') and filename.endswith('.out'):
+                    output_files.append(filename)
+            
+            output_files.sort()  # Ordenar para mostrar consistentemente
         
-        return render_template('results.html', 
-                             job_info=job_info, 
-                             output_files=output_files,
-                             job_id=job_id)
+            return render_template('results.html', 
+                                job_info=job_info, 
+                                output_files=output_files,
+                                job_id=job_id)
+            
+        elif job_info.get('config').get('jobType') == 'parallel':
+            
+            output_files = ['job_0.out']
+            
+            return render_template('results.html', 
+                                job_info=job_info, 
+                                output_files=output_files,
+                                job_id=job_id)
         
     except Exception as e:
         return "Error al cargar resultados: {}".format(str(e)), 500
@@ -368,55 +465,6 @@ def get_job_status(job_id):
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
-# Rutas existentes
-@app.route("/upload", methods=['POST'])
-def execute():
-    
-    # Cambio de directorio de trabajo al del proyecto
-    cwd = os.getcwd()
-    os.chdir(DEFAULT_PROJECT_FOLDER)
-    
-    # Obtener los archivos del multipart request que mandó el formulario
-    submit = request.files.get('submit')
-    executable = request.files.get('executable')
-    
-    # Guardar los archivos en el equipo para luego ejecutarlos
-    os.chdir(UPLOAD_FOLDER)
-    if submit: submit.save(submit.filename)
-    if executable:executable.save(executable.filename)
-    
-    # Ejecutar el proceso de Condor que ejecuta el trabajo    
-    try:
-            
-        result = subprocess.run(
-            ['condor_submit', submit.filename],
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
-            universal_newlines=True
-        )
-        
-        # Manejo basico de salida para ver con que ID salió el trabajo
-        lines = result.stdout.split('\n')
-        job_number = None
-        
-        for line in lines:
-            match = re.search(r"(\d+)\s+job\(s\)\s+submitted to cluster\s+(\d+)", line)
-            if match:
-                job_number = match.group(2)
-        
-        # Manejo basico del archivo submit para obtener el nombre del archivo de salida
-        output_file = None
-        with open(submit.filename, 'r') as file:
-            for line in file:
-                if line.startswith('output'):
-                    output_file = line.split('=')[1].strip().strip('"')
-                    break
-        
-    except Exception as e:
-        return "Error ejecutando comando: " + str(e)
-
-    return render_template('state.html', job_id=job_number, output_file=output_file)
-
 @app.route("/state/<id>")
 def estado_trabajo(id):
     
@@ -440,17 +488,5 @@ def estado_trabajo(id):
     except Exception as e:
         return "Error ejecutando comando: " + str(e)
     
-@app.route("/output/<output_file>")
-def output(output_file):
-    output_path = os.path.join(UPLOAD_FOLDER, output_file)
-    
-    if not os.path.exists(output_path):
-        return "Archivo no encontrado", 404
-    
-    with open(output_path, 'r') as file:
-        content = file.read()
-    
-    return Response(content, mimetype='text/plain')
-
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)

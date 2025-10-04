@@ -27,51 +27,51 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // --- CLUSTER LOADING DINAMICALLY ---
     const loadClusters = async (clusterType, dropdown) => {
-    const clusterSelect = document.getElementById(dropdown);
-    
-    // Solo limpiar el dropdown si no estamos en modo automático
-    if (!clusterSelect._isRefreshing) {
-        clusterSelect.innerHTML = "";
+        const clusterSelect = document.getElementById(dropdown);
         
-        const defaultOption = document.createElement("option");
-        defaultOption.value = "";
-        defaultOption.textContent = "Seleccionar cluster";
-        defaultOption.disabled = true;
-        defaultOption.selected = true;
-        clusterSelect.appendChild(defaultOption);
-    }
-
-    for (const submitIp of INVENTORY) {
-        try {
-            // SIN AbortController para refrescos automáticos
-            const response = await fetch(`http://${submitIp}:${DEFAULT_PORT}`, {
-                // signal: controller.signal // ← Eliminar esta línea
-            });
+        // Solo limpiar el dropdown si no estamos en modo automático
+        if (!clusterSelect._isRefreshing) {
+            clusterSelect.innerHTML = "";
             
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-            
-            const clusterInfo = await response.json();
-
-            if (clusterType === "all" || clusterInfo.cluster_type === clusterType) {
-                // Actualizar o crear opción existente
-                let option = clusterSelect.querySelector(`option[value*="${submitIp}"]`);
-                if (!option) {
-                    option = document.createElement("option");
-                    clusterSelect.appendChild(option);
-                }
-                option.value = `${clusterInfo.schedd_address} ${clusterInfo.collector_address}`;
-                option.textContent = `${submitIp}: {slots: ${clusterInfo.slots}; éxito: ${clusterInfo.success_jobs}; cola: ${clusterInfo.idle_jobs}}`;
-            }
-            
-        } catch (error) {
-            console.error(`Error al obtener datos de ${submitIp}:`, error);
+            const defaultOption = document.createElement("option");
+            defaultOption.value = "";
+            defaultOption.textContent = "Seleccionar cluster";
+            defaultOption.disabled = true;
+            defaultOption.selected = true;
+            clusterSelect.appendChild(defaultOption);
         }
-    }
-    
-    clusterSelect._isRefreshing = true; // Marcar como en refresco automático
-};
+
+        for (const submitIp of INVENTORY) {
+            try {
+                // SIN AbortController para refrescos automáticos
+                const response = await fetch(`http://${submitIp}:${DEFAULT_PORT}`, {
+                    // signal: controller.signal // ← Eliminar esta línea
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                const clusterInfo = await response.json();
+
+                if (clusterType === "all" || clusterInfo.cluster_type === clusterType) {
+                    // Actualizar o crear opción existente
+                    let option = clusterSelect.querySelector(`option[value*="${submitIp}"]`);
+                    if (!option) {
+                        option = document.createElement("option");
+                        clusterSelect.appendChild(option);
+                    }
+                    option.value = `${clusterInfo.schedd_address} ${clusterInfo.collector_address}`;
+                    option.textContent = `${submitIp}: {slots: ${clusterInfo.slots}; éxito: ${clusterInfo.success_jobs}; cola: ${clusterInfo.idle_jobs}}`;
+                }
+                
+            } catch (error) {
+                console.error(`Error al obtener datos de ${submitIp}:`, error);
+            }
+        }
+        
+        clusterSelect._isRefreshing = true; // Marcar como en refresco automático
+    };
 
     const cleanClusters = () => {
 
@@ -260,6 +260,11 @@ document.addEventListener("DOMContentLoaded", () => {
         const binaryFile = formData.get("binary-file");
         if (binaryFile && binaryFile.name) {
             submitData.append("binary-file", binaryFile);
+        }
+
+        const inputFile = formData.get("input-file");
+        if (inputFile && inputFile.name) {
+            submitData.append("input-file", inputFile);
         }
 
         // Preparar datos de configuración

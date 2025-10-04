@@ -1,0 +1,16 @@
+# HTCondor Submit File - Job ID: 101a81a5
+# Generated automatically
+universe = parallel
+executable = /usr/share/doc/condor/examples/openmpiscript
+arguments = quick-sort-parallel list1M out1M
+machine_count = 3
+request_cpus = 1
+should_transfer_files = yes
+when_to_transfer_output = ON_EXIT_OR_EVICT
+transfer_input_files = quick-sort-parallel,list1M
+log = job.log
+output = job_$(NODE).out
+error = job_$(NODE).err
++ParallelShutdownPolicy = "WAIT_FOR_NODE0"
+environment = "PATH=/usr/lib64/openmpi/bin:$PATH;LD_LIBRARY_PATH=/usr/lib64/openmpi/lib:$LD_LIBRARY_PATH"
+queue

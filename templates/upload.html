@@ -93,6 +93,11 @@
 
                     <!-- Opciones Parallel -->
                     <div id="parallel-options" class="job-options">
+                        <!-- Subir archivos de entrada -->
+                        <div class="form-group">
+                            <label for="input-file">Subir archivos de entrada:</label>
+                            <input type="file" id="input-file" name="input-file">
+                        </div>
                         <div class="form-group">
                             <label for="machines-count">Cantidad de máquinas requeridas:</label>
                             <input type="number" id="machines-count" name="machines-count">
@@ -104,7 +109,7 @@
                     </div>
 
                     <!-- Campo único de Cluster más favorable (dropdown) -->
-                    <div class="form-group">
+                    <div class="form-group" style="margin-top: 30px;">
                         <label for="cluster-guiado">Cluster más favorable:</label>
                         <select id="cluster-guiado" name="cluster-guiado"></select>
                     </div>
