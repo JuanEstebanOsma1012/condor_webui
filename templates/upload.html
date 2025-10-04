@@ -1,41 +1,155 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
-    <title>Condor Job Submission</title>
-    <style>
-        body { font-family: Arial, sans-serif; margin: 40px; background-color: #f5f5f5; }
-        .container { max-width: 600px; margin: 0 auto; background: white; padding: 30px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
-        h1 { color: #333; text-align: center; margin-bottom: 30px; }
-        .form-group { margin-bottom: 20px; }
-        label { display: block; margin-bottom: 5px; font-weight: bold; color: #555; }
-        input[type="file"] { width: 100%; padding: 10px; border: 2px dashed #ddd; background-color: #fafafa; border-radius: 4px; }
-        input[type="submit"] { background-color: #007bff; color: white; padding: 12px 30px; border: none; border-radius: 4px; cursor: pointer; font-size: 16px; width: 100%; }
-        input[type="submit"]:hover { background-color: #0056b3; }
-        .info { background-color: #e7f3ff; padding: 15px; border-radius: 4px; margin-bottom: 20px; border-left: 4px solid #007bff; }
-    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestor de Trabajos</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
-    <div class="container">
-        <h1>Condor Job Submission</h1>
-        <div class="info">
-            <p><strong>Instrucciones:</strong></p>
-            <ul>
-                <li>Selecciona el archivo <strong>submit</strong> (archivo .submit de Condor)</li>
-                <li>Selecciona el archivo <strong>executable</strong> (programa a ejecutar)</li>
-                <li>Haz clic en "Subir Archivos" para iniciar el proceso</li>
-            </ul>
+    <header>
+        <h1>Gestor de Trabajos</h1>
+    </header>
+
+    <main>
+        <!-- Contenedor de Tabs -->
+        <div class="tabs">
+            <button class="tab-button active" data-tab="guiado">Guiado</button>
+            <button class="tab-button" data-tab="personalizado">Personalizado</button>
         </div>
-        <form method="post" enctype="multipart/form-data" action="/upload">
-            <div class="form-group">
-                <label for="submit_file">Archivo Submit:</label>
-                <input type="file" id="submit_file" name="submit" required>
+
+        <!-- Contenido de Tabs -->
+        <div class="tab-content">
+            <!-- Tab Guiado -->
+            <div id="guiado" class="tab-panel active">
+                <form id="form-guiado" enctype="multipart/form-data">
+                    <!-- Subir binario -->
+                    <div class="form-group">
+                        <label for="binary-file">Subir binario:</label>
+                        <input type="file" id="binary-file" name="binary-file" required>
+                    </div>
+
+                    <!-- Argumentos adicionales -->
+                    <div class="form-group">
+                        <label for="additional-args">Argumentos adicionales (Opcional):</label>
+                        <input type="text" id="additional-args" name="additional-args" placeholder="arg1 arg2 ...">
+                    </div>
+
+                    <!-- Naturaleza del trabajo -->
+                    <div class="form-group">
+                        <label for="job-type">Naturaleza del trabajo:</label>
+                        <select id="job-type" name="job-type">
+                            <option value="vanilla">Vanilla</option>
+                            <option value="parallel">Parallel</option>
+                        </select>
+                    </div>
+
+                    <!-- Opciones Vanilla -->
+                    <div id="vanilla-options" class="job-options">
+                        <div class="form-group">
+                            <label for="vanilla-mode">Distribución de ejecuciones:</label>
+                            <select id="vanilla-mode" name="vanilla-mode">
+                                <option value="range">Ejecuciones en rangos</option>
+                                <option value="equal">Repeticiones iguales</option>
+                            </select>
+                        </div>
+
+                        <!-- Ejecuciones en rangos -->
+                        <div id="range-options" class="vanilla-suboptions">
+                            <!-- Variable parametrizable (dropdown) -->
+                            <div class="form-group">
+                                <label for="param-variable">Variable parametrizable:</label>
+                                <select id="param-variable" name="param-variable">
+                                    <option value="" disabled selected>Selecciona una variable</option>
+                                    <!-- Opciones generadas dinámicamente por JS -->
+                                </select>
+                            </div>
+
+                            <!-- Sub-sección punteada para valores de la variable seleccionada -->
+                            <div id="variable-values" class="vanilla-suboptions" style="display: none;">
+                                <div class="form-group">
+                                    <label for="start-value">Valor inicial:</label>
+                                    <input type="number" id="start-value" name="start-value">
+                                </div>
+                                <div class="form-group">
+                                    <label for="end-value">Valor final:</label>
+                                    <input type="number" id="end-value" name="end-value">
+                                </div>
+                                <div class="form-group">
+                                    <label for="increment">Incremento:</label>
+                                    <input type="number" id="increment" name="increment">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Repeticiones iguales -->
+                        <div id="equal-options" class="vanilla-suboptions">
+                            <div class="form-group">
+                                <label for="equal-repetitions">Cantidad de repeticiones:</label>
+                                <input type="number" id="equal-repetitions" name="equal-repetitions">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Opciones Parallel -->
+                    <div id="parallel-options" class="job-options">
+                        <div class="form-group">
+                            <label for="machines-count">Cantidad de máquinas requeridas:</label>
+                            <input type="number" id="machines-count" name="machines-count">
+                        </div>
+                        <div class="form-group">
+                            <label for="cores-per-machine">Cantidad de núcleos por máquina:</label>
+                            <input type="number" id="cores-per-machine" name="cores-per-machine">
+                        </div>
+                    </div>
+
+                    <!-- Campo único de Cluster más favorable (dropdown) -->
+                    <div class="form-group">
+                        <label for="cluster-guiado">Cluster más favorable:</label>
+                        <select id="cluster-guiado" name="cluster-guiado"></select>
+                    </div>
+
+                    <button type="submit">Enviar trabajo</button>
+                </form>
             </div>
-            <div class="form-group">
-                <label for="executable_file">Archivo Executable:</label>
-                <input type="file" id="executable_file" name="executable" required>
+
+            <!-- Tab Personalizado -->
+            <div id="personalizado" class="tab-panel">
+                <form id="form-personalizado" enctype="multipart/form-data">
+                    <!-- Subir binario -->
+                    <div class="form-group">
+                        <label for="binary-file-custom">Subir binario:</label>
+                        <input type="file" id="binary-file-custom" name="binary-file" required>
+                    </div>
+
+                    <!-- Subir submit -->
+                    <div class="form-group">
+                        <label for="submit-file">Subir <div style="font-style: italic; display: inline;">submit file</div>:</label>
+                        <input type="file" id="submit-file" name="submit-file" required>
+                    </div>
+
+                    <!-- Campo único de Cluster más favorable (dropdown) -->
+                    <div class="form-group">
+                        <label for="cluster-personalizado">Cluster:</label>
+                        <select id="cluster-personalizado" name="cluster-personalizado">
+                            <option value="" disabled selected>Selecciona un cluster</option>
+                        </select>
+                    </div>
+
+                    <button type="submit">Enviar trabajo</button>
+                </form>
             </div>
-            <input type="submit" value="Subir Archivos">
-        </form>
-    </div>
+        </div>
+
+        <!-- Loading overlay -->
+        <div id="loading-overlay" style="display: none;">
+            <div class="loading-content">
+                <div class="spinner"></div>
+                <p>Enviando trabajo...</p>
+            </div>
+        </div>
+    </main>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
 </html>

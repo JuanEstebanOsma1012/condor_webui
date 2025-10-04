@@ -1,0 +1,16 @@
+{
+  "submit_output": "Submitting job(s)..\n2 job(s) submitted to cluster 90.\n",
+  "cluster_id": "90",
+  "config": {
+    "vanillaMode": "equal",
+    "jobType": "vanilla",
+    "equalOptions": {
+      "repetitions": "2"
+    },
+    "additionalArgs": "100",
+    "cluster": "172.30.27.67:28339 172.30.27.66:9618"
+  },
+  "binary_filename": "montecarlo_pi.sh",
+  "created_at": 1759358569.1332357,
+  "job_id": "c4ac3a46"
+}

@@ -1,0 +1,15 @@
+# HTCondor Submit File - Job ID: c4ac3a46
+# Generated automatically
+universe = grid
+remote_universe = vanilla
+grid_resource = condor 172.30.27.67:28339 172.30.27.66:9618
+executable = montecarlo_pi.sh
+output = job_$(Process).out
+error = job_$(Process).err
+log = job.log
+# Configuraciones adicionales
+transfer_executable = YES
+should_transfer_files = YES
+when_to_transfer_output = ON_EXIT
+arguments = 100
+queue 2

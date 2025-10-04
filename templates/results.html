@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resultados del Trabajo - {{ job_id }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='results.css') }}">
+</head>
+<body>
+    <header>
+        <h1>Resultados del Trabajo</h1>
+        <div class="job-info">
+            <span class="job-id">ID: {{ job_id }}</span>
+            <span class="job-status" id="overall-status">Cargando...</span>
+        </div>
+    </header>
+
+    <main>
+        <div class="controls">
+            <button onclick="refreshStatus()" class="refresh-btn">Actualizar Estado</button>
+            <button onclick="window.location.href='/'" class="back-btn">Nuevo Trabajo</button>
+        </div>
+
+        <div class="job-details">
+            <h2>Información del Trabajo</h2>
+            <div class="info-grid">
+                <div class="info-item">
+                    <label>ID del Trabajo:</label>
+                    <span>{{ job_id }}</span>
+                </div>
+                {% if job_info.cluster_id %}
+                <div class="info-item">
+                    <label>ID del Cluster:</label>
+                    <span>{{ job_info.cluster_id }}</span>
+                </div>
+                {% endif %}
+                {% if job_info.config and job_info.config.jobType %}
+                <div class="info-item">
+                    <label>Tipo de Trabajo:</label>
+                    <span>{{ job_info.config.jobType }}</span>
+                </div>
+                {% endif %}
+                {% if job_info.binary_filename %}
+                <div class="info-item">
+                    <label>Ejecutable:</label>
+                    <span>{{ job_info.binary_filename }}</span>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="results-section">
+            <h2>Resultados de Ejecución</h2>
+            <div class="grid-container" id="results-grid">
+                {% if output_files %}
+                    {% for filename in output_files %}
+                    <div class="result-card" data-filename="{{ filename }}">
+                        <div class="card-header">
+                            <h3>{{ filename }}</h3>
+                            <span class="status-indicator" id="status-{{ loop.index0 }}">Pendiente</span>
+                        </div>
+                        <div class="card-body">
+                            <div class="output-preview" id="preview-{{ loop.index0 }}">
+                                Cargando contenido...
+                            </div>
+                            <button onclick="viewFullOutput('{{ filename }}')" class="view-btn">
+                                Ver Completo
+                            </button>
+                        </div>
+                    </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="no-results">
+                        <p>No hay archivos de salida disponibles aún.</p>
+                        <p>Los resultados aparecerán aquí cuando las tareas se completen.</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="log-section">
+            <h2>Registro de Actividad</h2>
+            <div class="log-container" id="activity-log">
+                <div class="log-entry">
+                    <span class="timestamp">{{ moment().format() if moment else 'Ahora' }}</span>
+                    <span class="message">Trabajo creado y enviado al cluster</span>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Modal para vista completa -->
+    <div id="output-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modal-title">Salida Completa</h3>
+                <button onclick="closeModal()" class="close-btn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <pre id="modal-output">Cargando...</pre>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const jobId = '{{ job_id }}';
+        let refreshInterval;
+
+        // Función para actualizar el estado del trabajo
+        async function refreshStatus() {
+            try {
+                const response = await fetch(`/job_status/${jobId}`);
+                const data = await response.json();
+                
+                if (data.error) {
+                    document.getElementById('overall-status').textContent = 'Error';
+                    return;
+                }
+
+                // Actualizar estado general
+                const overallStatus = document.getElementById('overall-status');
+                const previousStatus = overallStatus.textContent;
+                overallStatus.textContent = data.overall_status || 'Desconocido';
+                overallStatus.className = `job-status status-${data.overall_status?.toLowerCase()}`;
+
+                // Actualizar estados individuales
+                const statuses = data.statuses || [];
+                statuses.forEach((status, index) => {
+                    const statusElement = document.getElementById(`status-${index}`);
+                    if (statusElement) {
+                        statusElement.textContent = status;
+                        statusElement.className = `status-indicator status-${status.toLowerCase()}`;
+                    }
+                });
+
+                // Solo agregar log si el estado cambió
+                if (previousStatus !== data.overall_status) {
+                    addLogEntry(`Estado actualizado: ${data.overall_status}`);
+                }
+
+                // Si el trabajo está completado, cargar outputs
+                if (data.overall_status === 'Completed') {
+                    loadOutputPreviews();
+                    clearInterval(refreshInterval)
+                }
+
+            } catch (error) {
+                console.error('Error al actualizar estado:', error);
+                addLogEntry('Error al consultar estado del trabajo');
+            }
+        }
+
+        // Función para cargar previsualizaciones de outputs
+        async function loadOutputPreviews() {
+            const cards = document.querySelectorAll('.result-card');
+            
+            for (let i = 0; i < cards.length; i++) {
+                const card = cards[i];
+                const filename = card.dataset.filename;
+                const previewElement = document.getElementById(`preview-${i}`);
+                
+                try {
+                    const response = await fetch(`/output/${jobId}/${filename}`);
+                    const content = await response.text();
+                    
+                    // Mostrar solo las primeras 3 líneas como preview
+                    const lines = content.split('\n').slice(0, 3);
+                    let preview = lines.join('\n');
+                    if (content.split('\n').length > 3) {
+                        preview += '\n...';
+                    }
+                    
+                    previewElement.innerHTML = `<pre>${preview}</pre>`;
+                    
+                } catch (error) {
+                    previewElement.textContent = 'Error al cargar contenido';
+                }
+            }
+        }
+
+        // Función para ver output completo
+        async function viewFullOutput(filename) {
+            const modal = document.getElementById('output-modal');
+            const modalTitle = document.getElementById('modal-title');
+            const modalOutput = document.getElementById('modal-output');
+            
+            modalTitle.textContent = `Salida Completa - ${filename}`;
+            modalOutput.textContent = 'Cargando...';
+            modal.style.display = 'block';
+            
+            try {
+                const response = await fetch(`/output/${jobId}/${filename}`);
+                const content = await response.text();
+                modalOutput.textContent = content;
+            } catch (error) {
+                modalOutput.textContent = 'Error al cargar el archivo';
+            }
+        }
+
+        // Función para cerrar modal
+        function closeModal() {
+            document.getElementById('output-modal').style.display = 'none';
+        }
+
+        // Función para agregar entrada al log
+        function addLogEntry(message) {
+            const logContainer = document.getElementById('activity-log');
+            const entry = document.createElement('div');
+            entry.className = 'log-entry';
+            
+            const timestamp = new Date().toLocaleTimeString();
+            entry.innerHTML = `
+                <span class="timestamp">${timestamp}</span>
+                <span class="message">${message}</span>
+            `;
+            
+            logContainer.insertBefore(entry, logContainer.firstChild);
+        }
+
+        // Cerrar modal al hacer clic fuera
+        window.onclick = function(event) {
+            const modal = document.getElementById('output-modal');
+            if (event.target === modal) {
+                closeModal();
+            }
+        }
+
+        // Inicializar página
+        document.addEventListener('DOMContentLoaded', function() {
+            // Actualizar estado inicial
+            refreshStatus();
+            
+            // Configurar actualización automática cada 5 segundos
+            refreshInterval = setInterval(refreshStatus, 5000);
+            
+            addLogEntry('Página de resultados cargada');
+        });
+
+        // Limpiar intervalo al salir de la página
+        window.addEventListener('beforeunload', function() {
+            if (refreshInterval) {
+                clearInterval(refreshInterval);
+            }
+        });
+    </script>
+</body>
+</html>
