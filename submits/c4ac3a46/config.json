@@ -1,9 +1,0 @@
-{
-  "vanillaMode": "equal",
-  "jobType": "vanilla",
-  "equalOptions": {
-    "repetitions": "2"
-  },
-  "additionalArgs": "100",
-  "cluster": "172.30.27.67:28339 172.30.27.66:9618"
-}
