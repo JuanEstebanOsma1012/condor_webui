@@ -412,14 +412,29 @@ def get_job_status(job_id):
         
         statuses = []
 
-        # Consultar estado con condor_q
-        result = subprocess.run(
-            "condor_q {} -long | grep -E '^JobStatus'".format(cluster_id),
-            shell=True,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
-            universal_newlines=True
-        )
+        if job_info.get('config').get('jobType') == 'vanilla':
+            
+            # Consultar estado con condor_q
+            result = subprocess.run(
+                "condor_q {} -long | grep -E '^JobStatus'".format(cluster_id),
+                shell=True,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                universal_newlines=True
+            )
+            
+        elif job_info.get('config').get('jobType') == 'parallel':
+            
+            submit_ip = job_info.get('config').get('cluster').split(':')[0]
+            
+            result = subprocess.run(
+                ["ssh -i ~/.ssh/parallel", "alma@{}".format(submit_ip), "condor_q {} -long | grep -E '^JobStatus'".format(cluster_id)],
+                shell=True,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                universal_newlines=True
+            )
+            
         
         for line in result.stdout.split('\n'):
             match = re.search(r'JobStatus = "?(\d+)"?', line)
@@ -429,13 +444,26 @@ def get_job_status(job_id):
 
 	# 2. Si no está en condor_q → buscar en condor_history (terminados)
         if not statuses:
-            result_hist = subprocess.run(
-                "condor_history {} -limit 1 -long | grep -E '^JobStatus'".format(cluster_id),
-                shell=True,
-                stdout=subprocess.PIPE,
-                stderr=subprocess.PIPE,
-                universal_newlines=True
-            )
+            
+            if job_info.get('config').get('jobType') == 'vanilla':
+            
+                result_hist = subprocess.run(
+                    "condor_history {} -limit 1 -long | grep -E '^JobStatus'".format(cluster_id),
+                    shell=True,
+                    stdout=subprocess.PIPE,
+                    stderr=subprocess.PIPE,
+                    universal_newlines=True
+                )
+                
+            elif job_info.get('config').get('jobType') == 'parallel':
+                
+                result_hist = subprocess.run(
+                    ["ssh -i ~/.ssh/parallel", "alma@{}".format(submit_ip), "condor_history {} -limit 1 -long | grep -E '^JobStatus'".format(cluster_id)],
+                    shell=True,
+                    stdout=subprocess.PIPE,
+                    stderr=subprocess.PIPE,
+                    universal_newlines=True
+                )
 
             for line in result_hist.stdout.split('\n'):
                 match = re.search(r'JobStatus = "?(\d+)"?', line)
