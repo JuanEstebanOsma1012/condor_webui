@@ -13,7 +13,6 @@ if [ "$EUID" -ne 0 ]; then
 fi
 
 # --- 2. Variables ---
-REPO_URL="AQUI_VA_LA_URL_DEL_REPOSITORIO"   # <-- Sustituye con la URL real
 APP_DIR="/opt/app"
 SERVICE_FILE="/etc/systemd/system/grid-app.service"
 REQUIREMENTS_FILE="$(dirname "$0")/requirements.txt"
@@ -21,16 +20,7 @@ REQUIREMENTS_FILE="$(dirname "$0")/requirements.txt"
 # --- 3. Instalar dependencias necesarias ---
 echo "🔧 Verificando instalación de dependencias del sistema..."
 apt-get update -y
-apt-get install -y git python3 python3-pip
-
-# --- 4. Clonar el repositorio ---
-echo "📦 Clonando repositorio en /opt..."
-cd /opt
-if [ -d "$APP_DIR" ]; then
-  echo "⚠️  El directorio $APP_DIR ya existe. Eliminando..."
-  rm -rf "$APP_DIR"
-fi
-git clone "$REPO_URL" "$APP_DIR"
+apt-get install -y python3 python3-pip
 
 # --- 5. Instalar dependencias de Python ---
 if [ -f "$REQUIREMENTS_FILE" ]; then
