@@ -1,0 +1,10 @@
+# Test input data for ESC-03 parallel execution
+# This file contains sample data for parallel processing
+data_point_1: 10.5
+data_point_2: 23.7
+data_point_3: 45.2
+data_point_4: 78.9
+data_point_5: 12.3
+matrix_size: 100
+iterations: 50
+tolerance: 0.001

@@ -1,0 +1,3 @@
+# Test dependencies for HTCondor Web UI Test Suite
+selenium>=4.0.0
+requests>=2.25.0

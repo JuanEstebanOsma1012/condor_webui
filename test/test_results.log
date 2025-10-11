@@ -1,0 +1,441 @@
+2025-10-10 23:11:51,881 - WARNING - Error sending stats to Plausible: error sending request for url (https://plausible.io/api/event)
+2025-10-10 23:11:53,974 - INFO - Starting HTCondor Web UI Test Suite
+2025-10-10 23:11:53,980 - INFO - Server is ready
+2025-10-10 23:11:53,980 - INFO - === Starting ESC-01 Test ===
+2025-10-10 23:11:54,810 - INFO - Cluster options loaded
+2025-10-10 23:11:54,871 - INFO - Uploaded file: /home/juan/Documents/trabajo_de_grado/Raspberries/services/app_submit/app/test/ESC-01/test_binary
+2025-10-10 23:11:55,045 - INFO - Filled additional-args with: arg1 arg2 test_param
+2025-10-10 23:11:55,107 - INFO - Selected vanilla in dropdown job-type
+2025-10-10 23:11:55,195 - INFO - Selected equal in dropdown vanilla-mode
+2025-10-10 23:11:55,808 - INFO - Filled equal-repetitions with: 5
+2025-10-10 23:11:56,034 - INFO - Form submitted
+2025-10-10 23:11:59,039 - ERROR - Error waiting for job submission response: Alert Text: Error al enviar el trabajo: {
+  "error": "[Errno 2] No such file or directory: 'condor_submit'"
+}
+
+Message: unexpected alert open: {Alert text : Error al enviar el trabajo: {
+  "error": "[Errno 2] No such file or directory: 'condor_submit'"
+}
+}
+  (Session info: chrome=141.0.7390.54)
+Stacktrace:
+#0 0x55fa80cda95a <unknown>
+#1 0x55fa8077b536 <unknown>
+#2 0x55fa80818fac <unknown>
+#3 0x55fa807f24f3 <unknown>
+#4 0x55fa807be9c8 <unknown>
+#5 0x55fa807bf661 <unknown>
+#6 0x55fa80c9f8df <unknown>
+#7 0x55fa80ca3a28 <unknown>
+#8 0x55fa80c8699c <unknown>
+#9 0x55fa80ca41ee <unknown>
+#10 0x55fa80c6e52e <unknown>
+#11 0x55fa80cc7be8 <unknown>
+#12 0x55fa80cc7dff <unknown>
+#13 0x55fa80cd944c <unknown>
+#14 0x7ff5cb099ac3 <unknown>
+
+2025-10-10 23:11:59,039 - INFO - ESC-01 completed with status: FAILED
+2025-10-10 23:12:04,039 - INFO - === Starting ESC-02 Test ===
+2025-10-10 23:12:04,601 - INFO - Cluster options loaded
+2025-10-10 23:12:04,626 - INFO - Uploaded file: /home/juan/Documents/trabajo_de_grado/Raspberries/services/app_submit/app/test/ESC-02/test_binary
+2025-10-10 23:12:04,752 - INFO - Filled additional-args with: arg1 VAR1 arg2
+2025-10-10 23:12:04,794 - INFO - Selected vanilla in dropdown job-type
+2025-10-10 23:12:04,841 - INFO - Selected range in dropdown vanilla-mode
+2025-10-10 23:12:06,994 - INFO - Form submitted
+2025-10-10 23:12:10,004 - ERROR - Job submission did not redirect to results page
+2025-10-10 23:12:10,004 - INFO - ESC-02 completed with status: FAILED
+2025-10-10 23:12:15,004 - INFO - === Starting ESC-03 Test ===
+2025-10-10 23:12:15,577 - INFO - Cluster options loaded
+2025-10-10 23:12:15,604 - INFO - Uploaded file: /home/juan/Documents/trabajo_de_grado/Raspberries/services/app_submit/app/test/ESC-03/test_binary
+2025-10-10 23:12:15,694 - INFO - Filled additional-args with: arg1 arg2
+2025-10-10 23:12:15,767 - INFO - Selected parallel in dropdown job-type
+2025-10-10 23:12:17,809 - INFO - Uploaded file: /home/juan/Documents/trabajo_de_grado/Raspberries/services/app_submit/app/test/ESC-03/test_input.dat
+2025-10-10 23:12:17,893 - INFO - Filled machines-count with: 2
+2025-10-10 23:12:17,989 - INFO - Filled cores-per-machine with: 4
+2025-10-10 23:12:18,071 - INFO - Form submitted
+2025-10-10 23:12:21,080 - ERROR - Job submission did not redirect to results page
+2025-10-10 23:12:21,080 - INFO - ESC-03 completed with status: FAILED
+2025-10-10 23:12:26,081 - INFO - === TEST SUITE SUMMARY ===
+2025-10-10 23:12:26,081 - INFO - Total tests: 3
+2025-10-10 23:12:26,081 - INFO - Passed: 0
+2025-10-10 23:12:26,081 - INFO - Failed: 3
+2025-10-10 23:12:26,081 - INFO - Errors: 0
+2025-10-10 23:12:26,081 - INFO - Success rate: 0.0%
+2025-10-10 23:12:26,082 - INFO - Detailed report saved to: /home/juan/Documents/trabajo_de_grado/Raspberries/services/app_submit/app/test/test_report.json
+2025-10-10 23:12:26,152 - INFO - WebDriver closed
+2025-10-10 23:12:29,085 - INFO - === Starting ESC-01 Test ===
+2025-10-10 23:12:29,844 - INFO - Cluster options loaded
+2025-10-10 23:12:29,890 - INFO - Uploaded file: /home/juan/Documents/trabajo_de_grado/Raspberries/services/app_submit/app/test/ESC-01/test_binary
+2025-10-10 23:12:30,030 - INFO - Filled additional-args with: arg1 arg2 test_param
+2025-10-10 23:12:30,092 - INFO - Selected vanilla in dropdown job-type
+2025-10-10 23:12:30,174 - INFO - Selected equal in dropdown vanilla-mode
+2025-10-10 23:12:30,271 - INFO - Filled equal-repetitions with: 5
+2025-10-10 23:12:30,442 - INFO - Form submitted
+2025-10-10 23:12:33,448 - ERROR - Job submission did not redirect to results page
+2025-10-10 23:12:33,448 - INFO - ESC-01 completed with status: FAILED
+2025-10-10 23:12:33,449 - INFO - === TEST SUITE SUMMARY ===
+2025-10-10 23:12:33,449 - INFO - Total tests: 1
+2025-10-10 23:12:33,449 - INFO - Passed: 0
+2025-10-10 23:12:33,449 - INFO - Failed: 1
+2025-10-10 23:12:33,449 - INFO - Errors: 0
+2025-10-10 23:12:33,449 - INFO - Success rate: 0.0%
+2025-10-10 23:12:33,449 - INFO - Detailed report saved to: /home/juan/Documents/trabajo_de_grado/Raspberries/services/app_submit/app/test/test_report.json
+2025-10-10 23:12:33,519 - INFO - WebDriver closed
+2025-10-10 23:18:48,817 - INFO - Starting HTCondor Web UI Test Suite
+2025-10-10 23:18:48,972 - INFO - Server is ready
+2025-10-10 23:18:48,973 - INFO - === Starting ESC-01 Test ===
+2025-10-10 23:18:49,973 - INFO - Cluster options loaded
+2025-10-10 23:18:50,017 - INFO - Uploaded file: /home/juan/Documents/trabajo_de_grado/Raspberries/services/app_submit/app/test/ESC-01/test_binary
+2025-10-10 23:18:50,162 - INFO - Filled additional-args with: arg1 arg2 test_param
+2025-10-10 23:18:50,225 - INFO - Selected vanilla in dropdown job-type
+2025-10-10 23:18:50,314 - INFO - Selected equal in dropdown vanilla-mode
+2025-10-10 23:18:50,928 - INFO - Filled equal-repetitions with: 5
+2025-10-10 23:18:51,098 - INFO - Form submitted
+2025-10-10 23:18:54,105 - INFO - Job submitted successfully, job ID: 6710327f
+2025-10-10 23:18:54,460 - INFO - Job 6710327f status: {'cluster_id': '108', 'job_id': '6710327f', 'overall_status': 'Idle', 'statuses': ['Idle', 'Idle', 'Idle', 'Idle', 'Idle']}
+2025-10-10 23:19:24,643 - ERROR - Error validating results page: Message: 
+Stacktrace:
+#0 0x563351e5595a <unknown>
+#1 0x5633518f6536 <unknown>
+#2 0x563351947484 <unknown>
+#3 0x563351947721 <unknown>
+#4 0x563351996134 <unknown>
+#5 0x56335196d74d <unknown>
+#6 0x56335199355c <unknown>
+#7 0x56335196d4f3 <unknown>
+#8 0x5633519399c8 <unknown>
+#9 0x56335193a661 <unknown>
+#10 0x563351e1a8df <unknown>
+#11 0x563351e1ea28 <unknown>
+#12 0x563351e0199c <unknown>
+#13 0x563351e1f1ee <unknown>
+#14 0x563351de952e <unknown>
+#15 0x563351e42be8 <unknown>
+#16 0x563351e42dff <unknown>
+#17 0x563351e5444c <unknown>
+#18 0x7fc915c12ac3 <unknown>
+
+2025-10-10 23:19:24,643 - INFO - ESC-01 completed with status: FAILED
+2025-10-10 23:19:29,643 - INFO - === Starting ESC-02 Test ===
+2025-10-10 23:19:30,501 - INFO - Cluster options loaded
+2025-10-10 23:19:30,529 - INFO - Uploaded file: /home/juan/Documents/trabajo_de_grado/Raspberries/services/app_submit/app/test/ESC-02/test_binary
+2025-10-10 23:19:30,655 - INFO - Filled additional-args with: arg1 VAR1 arg2
+2025-10-10 23:19:30,714 - INFO - Selected vanilla in dropdown job-type
+2025-10-10 23:19:30,764 - INFO - Selected range in dropdown vanilla-mode
+2025-10-10 23:19:32,929 - INFO - Form submitted
+2025-10-10 23:19:35,941 - INFO - Job submitted successfully, job ID: 86fc56bb
+2025-10-10 23:19:36,146 - INFO - Job 86fc56bb status: {'cluster_id': '109', 'job_id': '86fc56bb', 'overall_status': 'Idle', 'statuses': ['Idle']}
+2025-10-10 23:20:06,308 - ERROR - Error validating results page: Message: 
+Stacktrace:
+#0 0x563351e5595a <unknown>
+#1 0x5633518f6536 <unknown>
+#2 0x563351947484 <unknown>
+#3 0x563351947721 <unknown>
+#4 0x563351996134 <unknown>
+#5 0x56335196d74d <unknown>
+#6 0x56335199355c <unknown>
+#7 0x56335196d4f3 <unknown>
+#8 0x5633519399c8 <unknown>
+#9 0x56335193a661 <unknown>
+#10 0x563351e1a8df <unknown>
+#11 0x563351e1ea28 <unknown>
+#12 0x563351e0199c <unknown>
+#13 0x563351e1f1ee <unknown>
+#14 0x563351de952e <unknown>
+#15 0x563351e42be8 <unknown>
+#16 0x563351e42dff <unknown>
+#17 0x563351e5444c <unknown>
+#18 0x7fc915c12ac3 <unknown>
+
+2025-10-10 23:20:06,308 - INFO - ESC-02 completed with status: FAILED
+2025-10-10 23:20:11,308 - INFO - === Starting ESC-03 Test ===
+2025-10-10 23:20:12,087 - INFO - Cluster options loaded
+2025-10-10 23:20:12,110 - INFO - Uploaded file: /home/juan/Documents/trabajo_de_grado/Raspberries/services/app_submit/app/test/ESC-03/test_binary
+2025-10-10 23:20:12,219 - INFO - Filled additional-args with: arg1 arg2
+2025-10-10 23:20:12,303 - INFO - Selected parallel in dropdown job-type
+2025-10-10 23:20:14,344 - INFO - Uploaded file: /home/juan/Documents/trabajo_de_grado/Raspberries/services/app_submit/app/test/ESC-03/test_input.dat
+2025-10-10 23:20:14,431 - INFO - Filled machines-count with: 2
+2025-10-10 23:20:14,517 - INFO - Filled cores-per-machine with: 4
+2025-10-10 23:20:14,599 - INFO - Form submitted
+2025-10-10 23:20:17,606 - ERROR - Error waiting for job submission response: Alert Text: Error al enviar el trabajo: {
+  "error": "'NoneType' object has no attribute 'split'"
+}
+
+Message: unexpected alert open: {Alert text : Error al enviar el trabajo: {
+  "error": "'NoneType' object has no attribute 'split'"
+}
+}
+  (Session info: chrome=141.0.7390.54)
+Stacktrace:
+#0 0x563351e5595a <unknown>
+#1 0x5633518f6536 <unknown>
+#2 0x563351993fac <unknown>
+#3 0x56335196d4f3 <unknown>
+#4 0x5633519399c8 <unknown>
+#5 0x56335193a661 <unknown>
+#6 0x563351e1a8df <unknown>
+#7 0x563351e1ea28 <unknown>
+#8 0x563351e0199c <unknown>
+#9 0x563351e1f1ee <unknown>
+#10 0x563351de952e <unknown>
+#11 0x563351e42be8 <unknown>
+#12 0x563351e42dff <unknown>
+#13 0x563351e5444c <unknown>
+#14 0x7fc915c12ac3 <unknown>
+
+2025-10-10 23:20:17,606 - INFO - ESC-03 completed with status: FAILED
+2025-10-10 23:20:22,609 - INFO - === TEST SUITE SUMMARY ===
+2025-10-10 23:20:22,609 - INFO - Total tests: 3
+2025-10-10 23:20:22,609 - INFO - Passed: 0
+2025-10-10 23:20:22,609 - INFO - Failed: 3
+2025-10-10 23:20:22,610 - INFO - Errors: 0
+2025-10-10 23:20:22,610 - INFO - Success rate: 0.0%
+2025-10-10 23:20:22,610 - INFO - Detailed report saved to: /home/juan/Documents/trabajo_de_grado/Raspberries/services/app_submit/app/test/test_report.json
+2025-10-10 23:20:22,695 - INFO - WebDriver closed
+2025-10-10 23:23:04,437 - INFO - Starting HTCondor Web UI Test Suite
+2025-10-10 23:23:04,523 - INFO - Server is ready
+2025-10-10 23:23:04,523 - INFO - === Starting ESC-01 Test ===
+2025-10-10 23:23:05,386 - INFO - Cluster options loaded
+2025-10-10 23:23:05,423 - ERROR - Failed to upload file /home/juan/Documents/trabajo_de_grado/Raspberries/services/app_submit/app/test/ESC-01/test_binary: Message: invalid argument: File not found : /home/juan/Documents/trabajo_de_grado/Raspberries/services/app_submit/app/test/ESC-01/test_binary
+  (Session info: chrome=141.0.7390.54)
+Stacktrace:
+#0 0x559cc6d3d95a <unknown>
+#1 0x559cc67de536 <unknown>
+#2 0x559cc6827e3a <unknown>
+#3 0x559cc6855722 <unknown>
+#4 0x559cc6823158 <unknown>
+#5 0x559cc68558ee <unknown>
+#6 0x559cc687b55c <unknown>
+#7 0x559cc68554f3 <unknown>
+#8 0x559cc68219c8 <unknown>
+#9 0x559cc6822661 <unknown>
+#10 0x559cc6d028df <unknown>
+#11 0x559cc6d06a28 <unknown>
+#12 0x559cc6ce999c <unknown>
+#13 0x559cc6d071ee <unknown>
+#14 0x559cc6cd152e <unknown>
+#15 0x559cc6d2abe8 <unknown>
+#16 0x559cc6d2adff <unknown>
+#17 0x559cc6d3c44c <unknown>
+#18 0x7fade8fcdac3 <unknown>
+
+2025-10-10 23:23:05,565 - INFO - Filled additional-args with: arg1 arg2 test_param
+2025-10-10 23:23:05,630 - INFO - Selected vanilla in dropdown job-type
+2025-10-10 23:23:05,717 - INFO - Selected equal in dropdown vanilla-mode
+2025-10-10 23:23:05,806 - INFO - Filled equal-repetitions with: 5
+2025-10-10 23:23:05,986 - INFO - Form submitted
+2025-10-10 23:23:08,995 - ERROR - Job submission did not redirect to results page
+2025-10-10 23:23:08,995 - INFO - ESC-01 completed with status: FAILED
+2025-10-10 23:23:13,995 - INFO - === Starting ESC-02 Test ===
+2025-10-10 23:23:13,998 - ERROR - ESC-02 test error: Message: invalid session id: session deleted as the browser has closed the connection
+from disconnected: not connected to DevTools
+  (Session info: chrome=141.0.7390.54); For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+#0 0x559cc6d3d95a <unknown>
+#1 0x559cc67de536 <unknown>
+#2 0x559cc67c4b7c <unknown>
+#3 0x559cc67eceda <unknown>
+#4 0x559cc685df2f <unknown>
+#5 0x559cc687af0c <unknown>
+#6 0x559cc68554f3 <unknown>
+#7 0x559cc68219c8 <unknown>
+#8 0x559cc6822661 <unknown>
+#9 0x559cc6d028df <unknown>
+#10 0x559cc6d06a28 <unknown>
+#11 0x559cc6ce999c <unknown>
+#12 0x559cc6d071ee <unknown>
+#13 0x559cc6cd152e <unknown>
+#14 0x559cc6d2abe8 <unknown>
+#15 0x559cc6d2adff <unknown>
+#16 0x559cc6d3c44c <unknown>
+#17 0x7fade8fcdac3 <unknown>
+
+2025-10-10 23:23:13,999 - INFO - ESC-02 completed with status: ERROR
+2025-10-10 23:23:18,999 - INFO - === Starting ESC-03 Test ===
+2025-10-10 23:23:19,002 - ERROR - ESC-03 test error: Message: invalid session id; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+#0 0x559cc6d3d95a <unknown>
+#1 0x559cc67de37e <unknown>
+#2 0x559cc6820b89 <unknown>
+#3 0x559cc6855626 <unknown>
+#4 0x559cc684fd25 <unknown>
+#5 0x559cc684eeb7 <unknown>
+#6 0x559cc67a65df <unknown>
+#7 0x559cc6d028df <unknown>
+#8 0x559cc6d06a28 <unknown>
+#9 0x559cc6ce999c <unknown>
+#10 0x559cc6d071ee <unknown>
+#11 0x559cc6cd152e <unknown>
+#12 0x559cc67a44ad <unknown>
+#13 0x7fade8f62d90 <unknown>
+
+2025-10-10 23:23:19,002 - INFO - ESC-03 completed with status: ERROR
+2025-10-10 23:23:20,624 - WARNING - Retrying (Retry(total=2, connect=None, read=None, redirect=None, status=None)) after connection broken by 'ConnectionResetError(104, 'Connection reset by peer')': /session/3d21b34272287db8ea8ac378803216f6
+2025-10-10 23:23:20,625 - WARNING - Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7f1324cecf50>: Failed to establish a new connection: [Errno 111] Connection refused')': /session/3d21b34272287db8ea8ac378803216f6
+2025-10-10 23:23:20,627 - WARNING - Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7f1324fcb6f0>: Failed to establish a new connection: [Errno 111] Connection refused')': /session/3d21b34272287db8ea8ac378803216f6
+2025-10-10 23:23:20,628 - INFO - WebDriver closed
+2025-10-10 23:24:06,686 - INFO - Starting HTCondor Web UI Test Suite
+2025-10-10 23:24:06,835 - INFO - Server is ready
+2025-10-10 23:24:06,836 - INFO - === Starting ESC-01 Test ===
+2025-10-10 23:24:07,744 - INFO - Cluster options loaded
+2025-10-10 23:24:07,781 - ERROR - Failed to upload file /home/juan/Documents/trabajo_de_grado/Raspberries/services/app_submit/app/test/ESC-01/test_binary: Message: invalid argument: File not found : /home/juan/Documents/trabajo_de_grado/Raspberries/services/app_submit/app/test/ESC-01/test_binary
+  (Session info: chrome=141.0.7390.54)
+Stacktrace:
+#0 0x563835f9495a <unknown>
+#1 0x563835a35536 <unknown>
+#2 0x563835a7ee3a <unknown>
+#3 0x563835aac722 <unknown>
+#4 0x563835a7a158 <unknown>
+#5 0x563835aac8ee <unknown>
+#6 0x563835ad255c <unknown>
+#7 0x563835aac4f3 <unknown>
+#8 0x563835a789c8 <unknown>
+#9 0x563835a79661 <unknown>
+#10 0x563835f598df <unknown>
+#11 0x563835f5da28 <unknown>
+#12 0x563835f4099c <unknown>
+#13 0x563835f5e1ee <unknown>
+#14 0x563835f2852e <unknown>
+#15 0x563835f81be8 <unknown>
+#16 0x563835f81dff <unknown>
+#17 0x563835f9344c <unknown>
+#18 0x7f3c66050ac3 <unknown>
+
+2025-10-10 23:24:07,917 - INFO - Filled additional-args with: arg1 arg2 test_param
+2025-10-10 23:24:07,978 - INFO - Selected vanilla in dropdown job-type
+2025-10-10 23:24:08,065 - INFO - Selected equal in dropdown vanilla-mode
+2025-10-10 23:24:08,154 - INFO - Filled equal-repetitions with: 5
+2025-10-10 23:24:08,339 - INFO - Form submitted
+2025-10-10 23:24:11,346 - ERROR - Job submission did not redirect to results page
+2025-10-10 23:24:11,346 - INFO - ESC-01 completed with status: FAILED
+2025-10-10 23:24:16,347 - INFO - === Starting ESC-02 Test ===
+2025-10-10 23:24:17,205 - INFO - Cluster options loaded
+2025-10-10 23:24:17,232 - INFO - Uploaded file: /home/juan/Documents/trabajo_de_grado/Raspberries/services/app_submit/app/test/ESC-02/test_binary
+2025-10-10 23:24:17,336 - INFO - Filled additional-args with: arg1 VAR1 arg2
+2025-10-10 23:24:17,385 - INFO - Selected vanilla in dropdown job-type
+2025-10-10 23:24:17,434 - INFO - Selected range in dropdown vanilla-mode
+2025-10-10 23:24:19,436 - ERROR - ESC-02 test error: Message: invalid session id: session deleted as the browser has closed the connection
+from disconnected: not connected to DevTools
+  (Session info: chrome=141.0.7390.54); For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalidsessionidexception
+Stacktrace:
+#0 0x563835f9495a <unknown>
+#1 0x563835a35536 <unknown>
+#2 0x563835a1bb7c <unknown>
+#3 0x563835a43eda <unknown>
+#4 0x563835ab4f2f <unknown>
+#5 0x563835ad1f0c <unknown>
+#6 0x563835aac4f3 <unknown>
+#7 0x563835a789c8 <unknown>
+#8 0x563835a79661 <unknown>
+#9 0x563835f598df <unknown>
+#10 0x563835f5da28 <unknown>
+#11 0x563835f4099c <unknown>
+#12 0x563835f5e1ee <unknown>
+#13 0x563835f2852e <unknown>
+#14 0x563835f81be8 <unknown>
+#15 0x563835f81dff <unknown>
+#16 0x563835f9344c <unknown>
+#17 0x7f3c66050ac3 <unknown>
+
+2025-10-10 23:24:19,436 - INFO - ESC-02 completed with status: ERROR
+2025-10-10 23:24:19,494 - WARNING - Retrying (Retry(total=2, connect=None, read=None, redirect=None, status=None)) after connection broken by 'ConnectionResetError(104, 'Connection reset by peer')': /session/b921933d384f552cdb6908a5b782b81e
+2025-10-10 23:24:19,496 - WARNING - Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7fb4256351d0>: Failed to establish a new connection: [Errno 111] Connection refused')': /session/b921933d384f552cdb6908a5b782b81e
+2025-10-10 23:24:19,496 - WARNING - Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7fb4259176f0>: Failed to establish a new connection: [Errno 111] Connection refused')': /session/b921933d384f552cdb6908a5b782b81e
+2025-10-10 23:24:19,497 - INFO - WebDriver closed
+2025-10-10 23:25:21,344 - INFO - Starting HTCondor Web UI Test Suite
+2025-10-10 23:25:21,434 - INFO - Server is ready
+2025-10-10 23:25:21,435 - INFO - === Starting ESC-01 Test ===
+2025-10-10 23:25:22,290 - INFO - Cluster options loaded
+2025-10-10 23:25:22,336 - INFO - Uploaded file: /home/juan/Documents/trabajo_de_grado/Raspberries/services/app_submit/app/test/ESC-01/montecarlo_pi.sh
+2025-10-10 23:25:22,450 - INFO - Filled additional-args with: 10
+2025-10-10 23:25:22,509 - INFO - Selected vanilla in dropdown job-type
+2025-10-10 23:25:22,603 - INFO - Selected equal in dropdown vanilla-mode
+2025-10-10 23:25:22,701 - INFO - Filled equal-repetitions with: 5
+2025-10-10 23:25:22,875 - INFO - Form submitted
+2025-10-10 23:25:25,885 - INFO - Job submitted successfully, job ID: 850594a6
+2025-10-10 23:25:26,091 - INFO - Job 850594a6 status: {'cluster_id': '110', 'job_id': '850594a6', 'overall_status': 'Idle', 'statuses': ['Idle', 'Idle', 'Idle', 'Idle', 'Idle']}
+2025-10-10 23:25:56,271 - ERROR - Error validating results page: Message: 
+Stacktrace:
+#0 0x55dc97ac095a <unknown>
+#1 0x55dc97561536 <unknown>
+#2 0x55dc975b2484 <unknown>
+#3 0x55dc975b2721 <unknown>
+#4 0x55dc97601134 <unknown>
+#5 0x55dc975d874d <unknown>
+#6 0x55dc975fe55c <unknown>
+#7 0x55dc975d84f3 <unknown>
+#8 0x55dc975a49c8 <unknown>
+#9 0x55dc975a5661 <unknown>
+#10 0x55dc97a858df <unknown>
+#11 0x55dc97a89a28 <unknown>
+#12 0x55dc97a6c99c <unknown>
+#13 0x55dc97a8a1ee <unknown>
+#14 0x55dc97a5452e <unknown>
+#15 0x55dc97aadbe8 <unknown>
+#16 0x55dc97aaddff <unknown>
+#17 0x55dc97abf44c <unknown>
+#18 0x7fdfb8ef8ac3 <unknown>
+
+2025-10-10 23:25:56,271 - INFO - ESC-01 completed with status: FAILED
+2025-10-10 23:26:01,272 - INFO - === Starting ESC-02 Test ===
+2025-10-10 23:26:02,008 - INFO - Cluster options loaded
+2025-10-10 23:26:02,036 - INFO - Uploaded file: /home/juan/Documents/trabajo_de_grado/Raspberries/services/app_submit/app/test/ESC-02/test_binary
+2025-10-10 23:26:02,128 - INFO - Filled additional-args with: arg1 VAR1 arg2
+2025-10-10 23:26:02,174 - INFO - Selected vanilla in dropdown job-type
+2025-10-10 23:26:02,225 - INFO - Selected range in dropdown vanilla-mode
+2025-10-10 23:26:04,390 - INFO - Form submitted
+2025-10-10 23:26:07,400 - INFO - Job submitted successfully, job ID: 6fa61b21
+2025-10-10 23:26:07,655 - INFO - Job 6fa61b21 status: {'cluster_id': '111', 'job_id': '6fa61b21', 'overall_status': 'Idle', 'statuses': ['Idle']}
+2025-10-10 23:26:07,856 - WARNING - Retrying (Retry(total=2, connect=None, read=None, redirect=None, status=None)) after connection broken by 'ConnectionResetError(104, 'Connection reset by peer')': /session/e04d8769e1ce481c9a5f93bf2fa44926
+2025-10-10 23:26:07,857 - WARNING - Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7f0d015aba80>: Failed to establish a new connection: [Errno 111] Connection refused')': /session/e04d8769e1ce481c9a5f93bf2fa44926
+2025-10-10 23:26:07,858 - WARNING - Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7f0d016368d0>: Failed to establish a new connection: [Errno 111] Connection refused')': /session/e04d8769e1ce481c9a5f93bf2fa44926
+2025-10-10 23:26:07,860 - INFO - WebDriver closed
+2025-10-10 23:27:52,659 - INFO - Starting HTCondor Web UI Test Suite
+2025-10-10 23:27:52,756 - INFO - Server is ready
+2025-10-10 23:27:52,756 - INFO - === Starting ESC-01 Test ===
+2025-10-10 23:27:53,554 - INFO - Cluster options loaded
+2025-10-10 23:27:53,598 - INFO - Uploaded file: /home/juan/Documents/trabajo_de_grado/Raspberries/services/app_submit/app/test/ESC-01/montecarlo_pi.sh
+2025-10-10 23:27:53,724 - INFO - Filled additional-args with: 10
+2025-10-10 23:27:53,780 - INFO - Selected vanilla in dropdown job-type
+2025-10-10 23:27:53,873 - INFO - Selected equal in dropdown vanilla-mode
+2025-10-10 23:27:54,475 - INFO - Filled equal-repetitions with: 5
+2025-10-10 23:27:54,650 - INFO - Form submitted
+2025-10-10 23:27:57,662 - INFO - Job submitted successfully, job ID: e8fe139a
+2025-10-10 23:27:57,884 - INFO - Job e8fe139a status: {'cluster_id': '112', 'job_id': 'e8fe139a', 'overall_status': 'Idle', 'statuses': ['Idle', 'Idle', 'Idle', 'Idle', 'Idle']}
+2025-10-10 23:28:28,062 - ERROR - Error validating results page: Message: 
+Stacktrace:
+#0 0x55d4ed9c495a <unknown>
+#1 0x55d4ed465536 <unknown>
+#2 0x55d4ed4b6484 <unknown>
+#3 0x55d4ed4b6721 <unknown>
+#4 0x55d4ed505134 <unknown>
+#5 0x55d4ed4dc74d <unknown>
+#6 0x55d4ed50255c <unknown>
+#7 0x55d4ed4dc4f3 <unknown>
+#8 0x55d4ed4a89c8 <unknown>
+#9 0x55d4ed4a9661 <unknown>
+#10 0x55d4ed9898df <unknown>
+#11 0x55d4ed98da28 <unknown>
+#12 0x55d4ed97099c <unknown>
+#13 0x55d4ed98e1ee <unknown>
+#14 0x55d4ed95852e <unknown>
+#15 0x55d4ed9b1be8 <unknown>
+#16 0x55d4ed9b1dff <unknown>
+#17 0x55d4ed9c344c <unknown>
+#18 0x7f05ce996ac3 <unknown>
+
+2025-10-10 23:28:28,062 - INFO - ESC-01 completed with status: FAILED
+2025-10-10 23:28:33,063 - INFO - === Starting ESC-02 Test ===
+2025-10-10 23:28:33,845 - INFO - Cluster options loaded
+2025-10-10 23:28:33,871 - INFO - Uploaded file: /home/juan/Documents/trabajo_de_grado/Raspberries/services/app_submit/app/test/ESC-02/test_binary
+2025-10-10 23:28:33,970 - INFO - Filled additional-args with: arg1 VAR1 arg2
+2025-10-10 23:28:34,020 - INFO - Selected vanilla in dropdown job-type
+2025-10-10 23:28:34,073 - INFO - Selected range in dropdown vanilla-mode
+2025-10-10 23:28:36,240 - INFO - Form submitted
+2025-10-10 23:28:39,250 - INFO - Job submitted successfully, job ID: 6a7d8997
+2025-10-10 23:28:39,506 - INFO - Job 6a7d8997 status: {'cluster_id': '113', 'job_id': '6a7d8997', 'overall_status': 'Idle', 'statuses': ['Idle']}
+2025-10-10 23:28:46,770 - WARNING - Retrying (Retry(total=2, connect=None, read=None, redirect=None, status=None)) after connection broken by 'ConnectionResetError(104, 'Connection reset by peer')': /session/21e6f46603908348a122cccea3c6e779
+2025-10-10 23:28:46,771 - WARNING - Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7fbecd4aba80>: Failed to establish a new connection: [Errno 111] Connection refused')': /session/21e6f46603908348a122cccea3c6e779
+2025-10-10 23:28:46,772 - WARNING - Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7fbecd5368d0>: Failed to establish a new connection: [Errno 111] Connection refused')': /session/21e6f46603908348a122cccea3c6e779
+2025-10-10 23:28:46,773 - INFO - WebDriver closed

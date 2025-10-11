@@ -1,0 +1,122 @@
+{
+  "test_id": "ESC-02",
+  "test_name": "Ejecución de trabajos en Universo Grid con variables parametrizables",
+  "description": "Validar que el sistema soporta ejecución en Universo Grid hacia el Universo Vanilla con parámetros variables",
+  "requirements": ["RF1", "RF2", "RF3", "RF4", "RF7", "RF8", "RNF1", "RNF2", "RNF3"],
+  "priority": "Alta",
+  "prerequisites": "Grid Manager configurado con al menos un cluster soportando Vanilla",
+  
+  "test_data": {
+    "job_configuration": {
+      "jobType": "vanilla",
+      "vanillaMode": "range",
+      "additionalArgs": "arg1 VAR1 arg2",
+      "rangeOptions": {
+        "allVariables": {
+          "VAR1": {
+            "start": 1,
+            "end": 10,
+            "increment": 2
+          }
+        }
+      },
+      "cluster": "172.30.27.35:44444"
+    },
+    "files": {
+      "binary_file": "test_binary",
+      "binary_filename": "test_binary",
+      "expected_binary_location": "submits/{job_id}/test_binary"
+    }
+  },
+  
+  "test_steps": [
+    {
+      "step_id": 1,
+      "action": "Ingresar a la página",
+      "data": "http://localhost:5000/",
+      "expected_result": "Página principal de la aplicación mostrada"
+    },
+    {
+      "step_id": 2,
+      "action": "Subir binario a través del selector de archivos",
+      "data": "test_binary",
+      "expected_result": "Binario almacenado en el sistema de envío"
+    },
+    {
+      "step_id": 3,
+      "action": "Escribir argumentos adicionales",
+      "data": "arg1 VAR1 arg2",
+      "expected_result": "Argumentos seteados en el submit file dinámico"
+    },
+    {
+      "step_id": 4,
+      "action": "Seleccionar la naturaleza del trabajo (Distribuido)",
+      "data": "vanilla",
+      "expected_result": "Universo seteado en el submit file dinámico"
+    },
+    {
+      "step_id": 5,
+      "action": "Seleccionar la información de distribución (Repeticiones con variables parametrizables)",
+      "data": "range",
+      "expected_result": "Agregada estructura necesaria al Submit file"
+    },
+    {
+      "step_id": 6,
+      "action": "Seleccionar variable parametrizable",
+      "data": "VAR1",
+      "expected_result": "Ciclo de envío en el archivo de shell creado"
+    },
+    {
+      "step_id": 7,
+      "action": "Establecer valor inicial",
+      "data": "1",
+      "expected_result": "Valor inicial del ciclo establecido"
+    },
+    {
+      "step_id": 8,
+      "action": "Establecer valor final",
+      "data": "10",
+      "expected_result": "Valor final del ciclo establecido"
+    },
+    {
+      "step_id": 9,
+      "action": "Establecer incremento",
+      "data": "2",
+      "expected_result": "Incremento del ciclo establecido"
+    },
+    {
+      "step_id": 10,
+      "action": "Ver cantidad de repeticiones",
+      "data": "calculated_repetitions",
+      "expected_result": "Cantidad de repeticiones calculadas (5 repeticiones: 1,3,5,7,9)"
+    },
+    {
+      "step_id": 11,
+      "action": "Seleccionar clúster más favorable",
+      "data": "172.30.27.35:44444",
+      "expected_result": "Recurso remoto del grid en el submit file establecido"
+    },
+    {
+      "step_id": 12,
+      "action": "Enviar trabajo",
+      "data": "submit_form",
+      "expected_result": "Shell de envío y submit file ejecutado"
+    },
+    {
+      "step_id": 13,
+      "action": "Ver resultados a medida que van terminando",
+      "data": "results_page",
+      "expected_result": "Salida de cada ejecución mostrada de forma organizada"
+    }
+  ],
+  
+  "validation_criteria": {
+    "job_submission_success": true,
+    "cluster_id_received": true,
+    "job_files_created": true,
+    "results_accessible": true,
+    "expected_output_files": 5,
+    "parameter_variation_validated": true,
+    "job_completion_timeout": 300
+  }
+}

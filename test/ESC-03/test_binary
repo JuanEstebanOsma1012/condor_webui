@@ -1,0 +1,18 @@
+#!/bin/bash
+# Test binary for ESC-03 - Parallel execution
+echo "ESC-03 Parallel Test Binary Execution"
+echo "Arguments: $@"
+echo "Input file: $1"
+echo "MPI Rank: ${OMPI_COMM_WORLD_RANK:-0}"
+echo "MPI Size: ${OMPI_COMM_WORLD_SIZE:-1}"
+echo "Execution time: $(date)"
+
+# Simulate parallel computation
+if [ -f "$1" ]; then
+    echo "Processing input file: $1"
+    cat "$1"
+fi
+
+sleep 8
+echo "Parallel test completed successfully"
+exit 0

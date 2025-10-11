@@ -1,0 +1,90 @@
+{
+  "test_suite": "HTCondor Web UI Automated Tests",
+  "execution_date": "2025-10-10T23:20:22.607233",
+  "total_tests": 3,
+  "passed_tests": 0,
+  "failed_tests": 3,
+  "error_tests": 0,
+  "test_results": [
+    {
+      "test_id": "ESC-01",
+      "start_time": "2025-10-10T23:18:48.973379",
+      "status": "FAILED",
+      "steps_completed": [
+        "Page loaded",
+        "Binary uploaded",
+        "Arguments filled",
+        "Job type selected",
+        "Vanilla mode selected",
+        "Repetitions set",
+        "Cluster selected",
+        "Form submitted",
+        "Job ID received"
+      ],
+      "errors": [
+        "Results validation failed"
+      ],
+      "job_id": "6710327f",
+      "job_status": {
+        "cluster_id": "108",
+        "job_id": "6710327f",
+        "overall_status": "Idle",
+        "statuses": [
+          "Idle",
+          "Idle",
+          "Idle",
+          "Idle",
+          "Idle"
+        ]
+      },
+      "end_time": "2025-10-10T23:19:24.643532"
+    },
+    {
+      "test_id": "ESC-02",
+      "start_time": "2025-10-10T23:19:29.645544",
+      "status": "FAILED",
+      "steps_completed": [
+        "Page loaded",
+        "Binary uploaded",
+        "Arguments with variable filled",
+        "Job type selected",
+        "Range mode selected",
+        "Cluster selected",
+        "Form submitted",
+        "Job ID received"
+      ],
+      "errors": [
+        "Results validation failed"
+      ],
+      "job_id": "86fc56bb",
+      "job_status": {
+        "cluster_id": "109",
+        "job_id": "86fc56bb",
+        "overall_status": "Idle",
+        "statuses": [
+          "Idle"
+        ]
+      },
+      "end_time": "2025-10-10T23:20:06.308451"
+    },
+    {
+      "test_id": "ESC-03",
+      "start_time": "2025-10-10T23:20:11.309355",
+      "status": "FAILED",
+      "steps_completed": [
+        "Page loaded",
+        "Binary uploaded",
+        "Arguments filled",
+        "Parallel job type selected",
+        "Input file uploaded",
+        "Machines count set",
+        "Cores per machine set",
+        "Form submitted"
+      ],
+      "errors": [
+        "Job ID not received"
+      ],
+      "end_time": "2025-10-10T23:20:17.606936"
+    }
+  ]
+}

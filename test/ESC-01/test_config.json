@@ -1,0 +1,91 @@
+{
+  "test_id": "ESC-01",
+  "test_name": "Ejecución de trabajos en Universo Grid con repeticiones de iguales parámetros",
+  "description": "Validar que el sistema soporta ejecución en Universo Grid hacia el Universo Vanilla",
+  "requirements": ["RF1", "RF2", "RF3", "RF4", "RF7", "RF8", "RNF1", "RNF2", "RNF3"],
+  "priority": "Alta",
+  "prerequisites": "Grid Manager configurado con al menos un cluster soportando Vanilla",
+  
+  "test_data": {
+    "job_configuration": {
+      "jobType": "vanilla",
+      "vanillaMode": "equal",
+      "additionalArgs": "10",
+      "equalOptions": {
+        "repetitions": 5
+      },
+      "cluster": "172.30.27.35:44444"
+    },
+    "files": {
+      "binary_file": "montecarlo_pi.sh",
+      "binary_filename": "montecarlo_pi.sh",
+      "expected_binary_location": "submits/{job_id}/montecarlo_pi.sh"
+    }
+  },
+  
+  "test_steps": [
+    {
+      "step_id": 1,
+      "action": "Ingresar a la página",
+      "data": "http://172.30.27.11:5000/",
+      "expected_result": "Página principal de la aplicación mostrada"
+    },
+    {
+      "step_id": 2,
+      "action": "Subir binario a través del selector de archivos",
+      "data": "montecarlo_pi.sh",
+      "expected_result": "Binario almacenado en el sistema de envío"
+    },
+    {
+      "step_id": 3,
+      "action": "Escribir argumentos adicionales",
+      "data": "arg1 arg2 test_param",
+      "expected_result": "Argumentos seteados en el submit file dinámico"
+    },
+    {
+      "step_id": 4,
+      "action": "Seleccionar la naturaleza del trabajo (Distribuido)",
+      "data": "vanilla",
+      "expected_result": "Universo seteado en el submit file dinámico"
+    },
+    {
+      "step_id": 5,
+      "action": "Seleccionar la información de distribución (Repeticiones con mismos parámetros)",
+      "data": "equal",
+      "expected_result": "Agregada estructura necesaria al Submit file"
+    },
+    {
+      "step_id": 6,
+      "action": "Seleccionar cantidad de repeticiones",
+      "data": "5",
+      "expected_result": "Ciclo de envío en el archivo de shell creado"
+    },
+    {
+      "step_id": 7,
+      "action": "Seleccionar cluster más favorable",
+      "data": "172.30.27.35:44444",
+      "expected_result": "Recurso remoto del grid en el submit file establecido"
+    },
+    {
+      "step_id": 8,
+      "action": "Enviar trabajo",
+      "data": "submit_form",
+      "expected_result": "Shell de envío y submit file ejecutado"
+    },
+    {
+      "step_id": 9,
+      "action": "Ver resultados a medida que van terminando",
+      "data": "results_page",
+      "expected_result": "Salida de cada ejecución mostrada de forma organizada"
+    }
+  ],
+  
+  "validation_criteria": {
+    "job_submission_success": true,
+    "cluster_id_received": true,
+    "job_files_created": true,
+    "results_accessible": true,
+    "expected_output_files": 5,
+    "job_completion_timeout": 300
+  }
+}

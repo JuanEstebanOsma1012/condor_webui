@@ -1,0 +1,9 @@
+#!/bin/bash
+# Test binary for ESC-02 - Vanilla Grid execution with parametrizable variables
+echo "ESC-02 Test Binary Execution"
+echo "Arguments: $@"
+echo "Variable parameter detected: $2"
+echo "Execution time: $(date)"
+sleep 3
+echo "Test completed successfully with parameter: $2"
+exit 0

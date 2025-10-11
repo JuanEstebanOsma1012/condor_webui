@@ -1,0 +1,102 @@
+{
+  "test_id": "ESC-03",
+  "test_name": "Ejecución de trabajos en Universo Parallel",
+  "description": "Validar que el sistema soporta ejecución en Universo Parallel",
+  "requirements": ["RF1", "RF2", "RF3", "RF4", "RF5", "RF6", "RF8", "RNF1", "RNF2", "RNF3"],
+  "priority": "Alta",
+  "prerequisites": "Grid Manager configurado con al menos un clúster soportando Parallel",
+  
+  "test_data": {
+    "job_configuration": {
+      "jobType": "parallel",
+      "additionalArgs": "arg1 arg2",
+      "parallelOptions": {
+        "machinesCount": 2,
+        "coresPerMachine": 4
+      },
+      "cluster": "172.30.27.35:44444"
+    },
+    "files": {
+      "binary_file": "test_binary",
+      "binary_filename": "test_binary",
+      "input_file": "test_input.dat",
+      "input_filename": "test_input.dat",
+      "expected_binary_location": "submits/{job_id}/test_binary",
+      "expected_input_location": "submits/{job_id}/test_input.dat"
+    }
+  },
+  
+  "test_steps": [
+    {
+      "step_id": 1,
+      "action": "Ingresar a la página",
+      "data": "http://localhost:5000/",
+      "expected_result": "Página principal de la aplicación mostrada"
+    },
+    {
+      "step_id": 2,
+      "action": "Subir binario a través del selector de archivos",
+      "data": "test_binary",
+      "expected_result": "Binario almacenado en el sistema de envío"
+    },
+    {
+      "step_id": 3,
+      "action": "Escribir argumentos adicionales",
+      "data": "arg1 arg2",
+      "expected_result": "Argumentos establecidos en el submit file dinámico"
+    },
+    {
+      "step_id": 4,
+      "action": "Seleccionar la naturaleza del trabajo (Paralelo)",
+      "data": "parallel",
+      "expected_result": "Universo establecido en el submit file dinámico"
+    },
+    {
+      "step_id": 5,
+      "action": "Escribir cantidad de máquinas requeridas",
+      "data": "2",
+      "expected_result": "Parámetro machine_count del submit file establecido"
+    },
+    {
+      "step_id": 6,
+      "action": "Escribir cantidad de núcleos solicitados por máquina",
+      "data": "4",
+      "expected_result": "Parámetro request_cpus del submit file establecido"
+    },
+    {
+      "step_id": 7,
+      "action": "Subir archivo de entrada",
+      "data": "test_input.dat",
+      "expected_result": "Archivo de entrada almacenado en el sistema"
+    },
+    {
+      "step_id": 8,
+      "action": "Seleccionar clúster más favorable",
+      "data": "172.30.27.35:44444",
+      "expected_result": "Recurso remoto establecido"
+    },
+    {
+      "step_id": 9,
+      "action": "Enviar trabajo",
+      "data": "submit_form",
+      "expected_result": "Script de envío y submit file ejecutado"
+    },
+    {
+      "step_id": 10,
+      "action": "Ver resultados a medida que van terminando",
+      "data": "results_page",
+      "expected_result": "Salida de cada ejecución mostrada de forma organizada"
+    }
+  ],
+  
+  "validation_criteria": {
+    "job_submission_success": true,
+    "cluster_id_received": true,
+    "job_files_created": true,
+    "input_files_created": true,
+    "results_accessible": true,
+    "expected_output_files": 1,
+    "parallel_execution_validated": true,
+    "job_completion_timeout": 600
+  }
+}
